@@ -1,6 +1,6 @@
 FROM php:8.3-apache
 
-# Install dependencies
+# Install dependencies yang dibutuhkan Laravel
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -16,26 +16,33 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev
 
+# Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Composer
+# Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /var/www/html
+
+# Copy project files
 COPY . /var/www/html
 
-RUN composer install --no-dev --optimize-autoloader
+# Install dependencies dengan mengabaikan platform requirements agar bisa berjalan di PHP 8.3
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
-# Apache Document Root
+# Ubah document root apache ke public folder Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -s 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -s 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
+# Enable Apache Mod Rewrite
 RUN a2enmod rewrite
 
+# Set permissions untuk storage dan bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
