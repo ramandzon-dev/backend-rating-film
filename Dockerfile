@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # Install dependencies yang dibutuhkan Laravel
 RUN apt-get update && apt-get install -y \
@@ -22,6 +22,14 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
+# Matikan modul MPM event/worker dan pastikan prefork aktif sepenuhnya
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
+    && rm -f /etc/apache2/mods-enabled/mpm_event.conf \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.load \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.conf \
+    && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/ \
+    && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
+
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -31,8 +39,8 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . /var/www/html
 
-# Install dependencies dengan mengabaikan platform requirements agar bisa berjalan di PHP 8.3
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+# Install dependencies dengan Composer (tanpa ignore-reqs karena sekarang sudah di PHP 8.4)
+RUN composer install --no-dev --optimize-autoloader
 
 # Ubah document root apache ke public folder Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
