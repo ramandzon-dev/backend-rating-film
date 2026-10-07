@@ -1,0 +1,188 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-10-07T13:20:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_film_rating",
+      "parentId": null,
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "name": "Film Rating REST API",
+      "description": "Collection for testing Film Rating Laravel REST API (Local & Online Production)",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_film_rating_base",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://127.0.0.1:8000/api"
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url"]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1696680000000,
+      "_type": "environment"
+    },
+    {
+      "_id": "req_get_films",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "url": "{{ _.base_url }}/films",
+      "name": "1. GET Semua Film",
+      "description": "Mengambil semua daftar film",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -100,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_film_detail",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "url": "{{ _.base_url }}/films/1",
+      "name": "2. GET Detail Film (by ID)",
+      "description": "Mengambil detail film berdasarkan ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -90,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_post_film",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "url": "{{ _.base_url }}/films",
+      "name": "3. POST Tambah Film Baru",
+      "description": "Menambahkan film baru ke database",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Interstellar\",\n  \"genre\": \"Sci-Fi\",\n  \"rating\": 5\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -80,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_put_film",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "url": "{{ _.base_url }}/films/1",
+      "name": "4. PUT Update Film",
+      "description": "Memperbarui data film berdasarkan ID",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Interstellar (Special Edition)\",\n  \"genre\": \"Sci-Fi / Adventure\",\n  \"rating\": 5\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -70,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_film",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "url": "{{ _.base_url }}/films/1",
+      "name": "5. DELETE Hapus Film",
+      "description": "Menghapus film berdasarkan ID",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -60,
+      "isPrivate": false,
+      "_type": "request"
+    },
+    {
+      "_id": "req_validation_test",
+      "parentId": "wrk_film_rating",
+      "modified": 1696680000000,
+      "created": 1696680000000,
+      "url": "{{ _.base_url }}/films",
+      "name": "6. POST Test Validation (Error 422)",
+      "description": "Menguji respon validasi Laravel jika data salah/kosong",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"\",\n  \"rating\": 10\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -50,
+      "isPrivate": false,
+      "_type": "request"
+    }
+  ]
+}

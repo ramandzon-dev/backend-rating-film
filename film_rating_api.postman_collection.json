@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "Film Rating REST API",
+    "_postman_id": "a9e6d081-3f44-48f1-9d2a-cbb206cbf6b3",
+    "description": "Collection for testing Film Rating Laravel REST API (Local & Online Production)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. GET Semua Film",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/films",
+          "host": ["{{base_url}}"],
+          "path": ["api", "films"]
+        }
+      }
+    },
+    {
+      "name": "2. GET Detail Film (by ID)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/films/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "films", "1"]
+        }
+      }
+    },
+    {
+      "name": "3. POST Tambah Film Baru",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Interstellar\",\n  \"genre\": \"Sci-Fi\",\n  \"rating\": 5\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/films",
+          "host": ["{{base_url}}"],
+          "path": ["api", "films"]
+        }
+      }
+    },
+    {
+      "name": "4. PUT Update Film",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Interstellar (Special Edition)\",\n  \"genre\": \"Sci-Fi / Adventure\",\n  \"rating\": 5\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/films/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "films", "1"]
+        }
+      }
+    },
+    {
+      "name": "5. DELETE Hapus Film",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/films/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "films", "1"]
+        }
+      }
+    },
+    {
+      "name": "6. POST Test Validation (Gagal / 422)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"\",\n  \"rating\": 10\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/films",
+          "host": ["{{base_url}}"],
+          "path": ["api", "films"]
+        }
+      }
+    }
+  ]
+}
