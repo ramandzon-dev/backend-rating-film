@@ -23,11 +23,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Paksa matikan konflik MPM Apache di PHP 8.4
-RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
-    && rm -f /etc/apache2/mods-enabled/mpm_event.conf \
-    && rm -f /etc/apache2/mods-enabled/mpm_worker.load \
-    && rm -f /etc/apache2/mods-enabled/mpm_worker.conf \
-    && a2enmod mpm_prefork
+# Matikan modul MPM event/worker dan aktifkan prefork secara paksa
+RUN a2dismod -f mpm_event mpm_worker && a2enmod mpm_prefork
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
