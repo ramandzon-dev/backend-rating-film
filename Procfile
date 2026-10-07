@@ -1,1 +1,1 @@
-web: php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+web: bash -c "if [ ! -f .env ]; then cp .env.example .env; fi; mkdir -p database; [ -f database/database.sqlite ] || touch database/database.sqlite; php artisan key:generate --force || true; php artisan migrate --force || true; php artisan serve --host=0.0.0.0 --port=\${PORT:-8000}"
