@@ -43,6 +43,11 @@ php artisan view:clear || true
 echo "==> Running migrations..."
 php artisan migrate --force || echo "==> Migrations failed or database not ready."
 
+if [ "${DB_SEED:-false}" = "true" ]; then
+    echo "==> Seeding database..."
+    php artisan db:seed --force || echo "==> Seeding failed."
+fi
+
 # Cache configurations for production speed
 php artisan config:cache || true
 php artisan route:cache || true

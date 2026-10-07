@@ -122,4 +122,23 @@ class FilmApiTest extends TestCase
             'id' => $film->id,
         ]);
     }
+
+    public function test_validate_film_invalid_rating(): void
+    {
+        $response = $this->postJson('/api/films', [
+            'title' => 'Invalid Rating Film',
+            'genre' => 'Action',
+            'rating' => 10,
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['rating']);
+    }
+
+    public function test_show_non_existent_film_returns_404(): void
+    {
+        $response = $this->getJson('/api/films/99999');
+
+        $response->assertStatus(404);
+    }
 }
