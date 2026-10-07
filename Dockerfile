@@ -1,5 +1,4 @@
-# Ubah dari php:8.4-apache ke php:8.3-apache yang lebih stabil
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # Install dependencies yang dibutuhkan Laravel
 RUN apt-get update && apt-get install -y \
@@ -22,6 +21,12 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# --- SOLUSI PERMANEN KONFLIK MPM APACHE DI PHP 8.4 ---
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.* \
+    && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/ \
+    && ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
