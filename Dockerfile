@@ -1,4 +1,5 @@
 FROM php:8.4-apache
+
 # Install dependencies yang dibutuhkan Laravel
 RUN apt-get update && apt-get install -y \
     libpng-dev \
