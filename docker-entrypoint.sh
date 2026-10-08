@@ -84,5 +84,18 @@ if [ "${DB_SEED:-false}" = "true" ]; then
     php artisan db:seed --force || echo "==> [Notice] Seeding failed or already seeded."
 fi
 
+# 10. Fix AH00534: Enforce single Apache MPM module (mpm_prefork for PHP mod_php)
+echo "==> Configuring Apache MPM modules (enforcing single mpm_prefork)..."
+rm -f /etc/apache2/mods-enabled/mpm_event.load \
+      /etc/apache2/mods-enabled/mpm_event.conf \
+      /etc/apache2/mods-enabled/mpm_worker.load \
+      /etc/apache2/mods-enabled/mpm_worker.conf
+a2dismod mpm_event mpm_worker 2>/dev/null || true
+a2enmod mpm_prefork 2>/dev/null || true
+
+# Check Apache configuration syntax
+apache2ctl configtest || echo "==> [Warning] Apache configtest reported notices."
+
 echo "==> Starting Apache web server on port ${PORT}..."
 exec apache2-foreground
+

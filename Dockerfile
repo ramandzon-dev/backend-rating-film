@@ -40,8 +40,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf \
     && echo "<Directory ${APACHE_DOCUMENT_ROOT}>\n    Options Indexes FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>" >> /etc/apache2/apache2.conf
 
-# Enable Apache rewrite module
-RUN a2enmod rewrite
+# Ensure only mpm_prefork is enabled and others are disabled
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
+    && a2enmod mpm_prefork rewrite
 
 # Setup entrypoint script and normalize line endings for Linux
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
